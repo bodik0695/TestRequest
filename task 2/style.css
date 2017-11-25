@@ -30,9 +30,11 @@ form{
 	color: #fff;
 	float: left;
 }
-.sqarch{
+.search{
 	background: #ccc;
+	color: #000;
 	border-radius: 10px;
+	padding-left: 5px;
 }
 .house{
 	display: inline-block;
@@ -43,4 +45,22 @@ form{
 	border: 1px solid #000;
 	border-radius: 10px;
 	margin-top: -1px;
+}
+.house_title{
+	color: #000;
+	font-size: 25px;
+	text-align: center,;
+	margin-top: 10px
+}
+.house_price{
+	color: #000;
+}
+.house_priceNumber{
+	color: red;
+	font-size: 25px;
+	text-align: center;
+	margin-top: 10px;
+}
+.house_img{
+	max-height: 270px;
 }

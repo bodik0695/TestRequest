@@ -8,30 +8,65 @@
     </style>
     <link rel="stylesheet" href="style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="handlebars-v4.0.11.js"></script>
   </head>
   
   <body>
     
     <div id="container">
-    	<form action="">
+    	<form class="form" action="">
+    		<input type="text" class="search" placeholder="select city">
     		<input class="button" type="submit" value="Search">
-    		<input type="text" class="serch">
     	</form>
+    	<script id="block" type="text/x-handlebars-template">
+    		<div class="house">
+    			<div class="house_title">{{title}}</div>
+    			<div class="house_priceNumber">
+    				<span class="house_price">Price: </span>{{priceNumber}}
+    			</div>
+    			<img class="house_img" src="{{img_url}}" alt="">
+    		</div>
+    	</script>
     </div>
 
     <script>
-    	var cont = $("#container");
- 	(function(){
- 		$.ajax({
-		    url: "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name=brighton",
-		    jsonp: "callback",
-		    dataType: "jsonp",
-		    data: {
-		        format: "json"
-		    },
-		    success: function( responseFromAPI ) {
-		        jQuery.each(responseFromAPI.response.listings, function(){
-		        	var newCont = $("<div></div>", {
+    	var container = $("#container");
+		var city ="";
+		//console.log(city); 
+			(function(){
+				$('.form').submit(function (e) {
+		 		e.preventDefault();
+			    city = $('.search').val();
+		 		if(city != ""){
+			 		$.ajax({
+					    url: "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name="+city,
+					    jsonp: "callback",
+					    dataType: "jsonp",
+					    data: {
+					        format: "json"
+					    },
+					    success: function( responseFromAPI ) {
+					    	$(".house").remove();
+					        jQuery.each(responseFromAPI.response.listings, function(){
+					        	var source = $("#block").html(),
+							    	template = Handlebars.compile(source),
+							    	context = {
+							    				title: this.title,
+							    				priceNumber:  this.price_formatted,
+							    				img_url: this.img_url
+							    			},
+									html = template(context);
+									container.append(html);
+					        }); 
+					    }
+					});
+				};
+				});
+		 	})();
+	 	
+
+
+		        	/*var newCont = $("<div></div>", {
 		        		"class": "house"
 		        	});
 		        	var title = $("<div>"+this.title+"</div>", {
@@ -66,11 +101,9 @@
 		        	price.prepend(spanPrice);
 		        	newCont.append(price);
 		        	newCont.append(img);
-		        	cont.append(newCont);
-		        }); 
-		    }
-		});
+		        	container.append(newCont);*/
 
+/*
 		// если использовать такой вариант, то ругается 
  		var nestoriaAPI = "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name=brighton?jsonp=parseResponse";
 
@@ -85,8 +118,7 @@
 		json.done(function() { console.log( "second success" ); });
 		json.fail(function() { console.log( "error" ); });
 		json.always(function() { console.log( "complete" ); });
-
-	})();
+*/
     </script>
     
   </body>
