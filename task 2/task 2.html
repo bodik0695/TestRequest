@@ -46,13 +46,16 @@
                             },
                             success: function( responseFromAPI ) {
                                 $(".house").remove();
-                                jQuery.each(responseFromAPI.response.listings, function(){
+                                var listings =  responseFromAPI.response.listings;
+
+                                listings.forEach(function(item){
+                                    //console.dir( i + ": " + item + " (массив:" + arr + ")" );
                                     var source = $("#block").html(),
                                         template = Handlebars.compile(source),
                                         context = {
-                                                    title: this.title,
-                                                    priceNumber:  this.price_formatted,
-                                                    img_url: this.img_url
+                                                    title: item.title,
+                                                    priceNumber:  item.price_formatted,
+                                                    img_url: item.img_url
                                                 },
                                         html = template(context);
                                         container.append(html);
