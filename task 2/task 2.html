@@ -32,35 +32,34 @@
     <script>
     	var container = $("#container");
 		var city ="";
-		//console.log(city); 
 			(function(){
 				$('.form').submit(function (e) {
 		 		e.preventDefault();
 			    city = $('.search').val();
-		 		if(city != ""){
-			 		$.ajax({
-					    url: "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name="+city,
-					    jsonp: "callback",
-					    dataType: "jsonp",
-					    data: {
-					        format: "json"
-					    },
-					    success: function( responseFromAPI ) {
-					    	$(".house").remove();
-					        jQuery.each(responseFromAPI.response.listings, function(){
-					        	var source = $("#block").html(),
-							    	template = Handlebars.compile(source),
-							    	context = {
-							    				title: this.title,
-							    				priceNumber:  this.price_formatted,
-							    				img_url: this.img_url
-							    			},
-									html = template(context);
-									container.append(html);
-					        }); 
-					    }
-					});
-				};
+			 		if(city != ""){
+				 		$.ajax({
+						    url: "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name="+city,
+						    jsonp: "callback",
+						    dataType: "jsonp",
+						    data: {
+						        format: "json"
+						    },
+						    success: function( responseFromAPI ) {
+						    	$(".house").remove();
+						        jQuery.each(responseFromAPI.response.listings, function(){
+						        	var source = $("#block").html(),
+								    	template = Handlebars.compile(source),
+								    	context = {
+								    				title: this.title,
+								    				priceNumber:  this.price_formatted,
+								    				img_url: this.img_url
+								    			},
+										html = template(context);
+										container.append(html);
+						        }); 
+						    }
+						});
+					};
 				});
 		 	})();
 	 	
