@@ -14,109 +14,109 @@
   <body>
     
     <div id="container">
-    	<form class="form" action="">
-    		<input type="text" class="search" placeholder="select city">
-    		<input class="button" type="submit" value="Search">
-    	</form>
-    	<script id="block" type="text/x-handlebars-template">
-    		<div class="house">
-    			<div class="house_title">{{title}}</div>
-    			<div class="house_priceNumber">
-    				<span class="house_price">Price: </span>{{priceNumber}}
-    			</div>
-    			<img class="house_img" src="{{img_url}}" alt="">
-    		</div>
-    	</script>
+        <form class="form" action="">
+            <input type="text" class="search" placeholder="select city">
+            <input class="button" type="submit" value="Search">
+        </form>
+        <script id="block" type="text/x-handlebars-template">
+            <div class="house">
+                <div class="house_title">{{title}}</div>
+                <div class="house_priceNumber">
+                    <span class="house_price">Price: </span>{{priceNumber}}
+                </div>
+                <img class="house_img" src="{{img_url}}" alt="">
+            </div>
+        </script>
     </div>
 
     <script>
-    	var container = $("#container");
-		var city ="";
-			(function(){
-				$('.form').submit(function (e) {
-		 		e.preventDefault();
-			    city = $('.search').val();
-			 		if(city != ""){
-				 		$.ajax({
-						    url: "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name="+city,
-						    jsonp: "callback",
-						    dataType: "jsonp",
-						    data: {
-						        format: "json"
-						    },
-						    success: function( responseFromAPI ) {
-						    	$(".house").remove();
-						        jQuery.each(responseFromAPI.response.listings, function(){
-						        	var source = $("#block").html(),
-								    	template = Handlebars.compile(source),
-								    	context = {
-								    				title: this.title,
-								    				priceNumber:  this.price_formatted,
-								    				img_url: this.img_url
-								    			},
-										html = template(context);
-										container.append(html);
-						        }); 
-						    }
-						});
-					};
-				});
-		 	})();
-	 	
+        var container = $("#container");
+        var city ="";
+            (function(){
+                $('.form').submit(function (e) {
+                e.preventDefault();
+                city = $('.search').val();
+                    if(city != ""){
+                        $.ajax({
+                            url: "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name="+city,
+                            jsonp: "callback",
+                            dataType: "jsonp",
+                            data: {
+                                format: "json"
+                            },
+                            success: function( responseFromAPI ) {
+                                $(".house").remove();
+                                jQuery.each(responseFromAPI.response.listings, function(){
+                                    var source = $("#block").html(),
+                                        template = Handlebars.compile(source),
+                                        context = {
+                                                    title: this.title,
+                                                    priceNumber:  this.price_formatted,
+                                                    img_url: this.img_url
+                                                },
+                                        html = template(context);
+                                        container.append(html);
+                                }); 
+                            }
+                        });
+                    };
+                });
+            })();
+        
 
 
-		        	/*var newCont = $("<div></div>", {
-		        		"class": "house"
-		        	});
-		        	var title = $("<div>"+this.title+"</div>", {
-		        		"class": "house_title"
-		        	});
-		        	var spanPrice = $("<span>Price: </span>", {
-		        		"class": "house_price"
-		        	});
-		        	var price = $("<div>"+this.price_formatted+"</div>", {
-		        		"class": "house_priceNumber"
-		        	});
-		        	var img = $("<img src='"+this.img_url+"' alt=''>", {
-		        		"class": "house_img"
-		        	});
-		        	newCont.css({});
-		        	title.css({
-			        	"color": "#000",
-			        	"font-size": "25px",
-			        	"text-align": "center",
-			        	"margin-top": "10px"
-		        	});
-		        	price.css({
-		        		"color": "red",
-			        	"font-size": "25px",
-			        	"text-align": "center",
-			        	"margin-top": "10px"
-		        	});
-		        	spanPrice.css({
-		        		"color": "#000",
-		        	});
-		        	newCont.append(title);
-		        	price.prepend(spanPrice);
-		        	newCont.append(price);
-		        	newCont.append(img);
-		        	container.append(newCont);*/
+                    /*var newCont = $("<div></div>", {
+                        "class": "house"
+                    });
+                    var title = $("<div>"+this.title+"</div>", {
+                        "class": "house_title"
+                    });
+                    var spanPrice = $("<span>Price: </span>", {
+                        "class": "house_price"
+                    });
+                    var price = $("<div>"+this.price_formatted+"</div>", {
+                        "class": "house_priceNumber"
+                    });
+                    var img = $("<img src='"+this.img_url+"' alt=''>", {
+                        "class": "house_img"
+                    });
+                    newCont.css({});
+                    title.css({
+                        "color": "#000",
+                        "font-size": "25px",
+                        "text-align": "center",
+                        "margin-top": "10px"
+                    });
+                    price.css({
+                        "color": "red",
+                        "font-size": "25px",
+                        "text-align": "center",
+                        "margin-top": "10px"
+                    });
+                    spanPrice.css({
+                        "color": "#000",
+                    });
+                    newCont.append(title);
+                    price.prepend(spanPrice);
+                    newCont.append(price);
+                    newCont.append(img);
+                    container.append(newCont);*/
 
 /*
-		// если использовать такой вариант, то ругается 
- 		var nestoriaAPI = "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name=brighton?jsonp=parseResponse";
+        // если использовать такой вариант, то ругается 
+        var nestoriaAPI = "https://api.nestoria.co.uk/api?encoding=json&pretty=1&action=search_listings&country=uk&listing_type=buy&place_name=brighton?jsonp=parseResponse";
 
- 		var json = $.getJSON( nestoriaAPI, {
-					jsonp: "callback",
-				    dataType: "jsonp",
-				    data: {
-				        format: "json"
-				    },
+        var json = $.getJSON( nestoriaAPI, {
+                    jsonp: "callback",
+                    dataType: "jsonp",
+                    data: {
+                        format: "json"
+                    },
 
-		 });
-		json.done(function() { console.log( "second success" ); });
-		json.fail(function() { console.log( "error" ); });
-		json.always(function() { console.log( "complete" ); });
+         });
+        json.done(function() { console.log( "second success" ); });
+        json.fail(function() { console.log( "error" ); });
+        json.always(function() { console.log( "complete" ); });
 */
     </script>
     
