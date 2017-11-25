@@ -49,7 +49,6 @@
                                 var listings =  responseFromAPI.response.listings;
 
                                 listings.forEach(function(item){
-                                    //console.dir( i + ": " + item + " (массив:" + arr + ")" );
                                     var source = $("#block").html(),
                                         template = Handlebars.compile(source),
                                         context = {
